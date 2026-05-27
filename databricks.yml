@@ -6,6 +6,7 @@ bundle:
 
 include:
   - resources/*.yml
+  - resources/*/*.yml
 
 artifacts:
   python_artifact:
@@ -28,7 +29,7 @@ targets:
     mode: development
     default: true
     workspace:
-      host: https://adb-7405611651926080.0.azuredatabricks.net
+      host: https://adb-7405611651926080.0.azuredatabricks.net/
     variables:
       catalog: sales_streaming_dev
       schema: dev
@@ -37,7 +38,7 @@ targets:
   test:
     mode: development
     workspace:
-      host: https://adb-7405611651926080.0.azuredatabricks.net
+      host: https://adb-7405611651926080.0.azuredatabricks.net/
       # We explicitly deploy to /Workspace/Users/saiadabala@jayveer.onmicrosoft.com to make sure we only have a single copy.
       root_path: /Workspace/Users/saiadabala@jayveer.onmicrosoft.com/.bundle/${bundle.name}/${bundle.target}
     variables:
@@ -49,7 +50,7 @@ targets:
   prod:
     mode: production
     workspace:
-      host: https://adb-7405611651926080.0.azuredatabricks.net
+      host: https://adb-7405612441814477.17.azuredatabricks.net/
       # We explicitly deploy to /Workspace/Users/saiadabala@jayveer.onmicrosoft.com to make sure we only have a single copy.
       root_path: /Workspace/Users/saiadabala@jayveer.onmicrosoft.com/.bundle/${bundle.name}/${bundle.target}
     variables:
