@@ -2,10 +2,17 @@ resources:
   jobs:
     streaming_ETL_job:
       name: streaming_ETL_job
+      trigger:
+        pause_status: UNPAUSED
+        periodic:
+          interval: 1
+          unit: HOURS
       tasks:
         - task_key: brz_read_task
           notebook_task:
             notebook_path: ..\..\medallion_arc\bronze\stream_read.ipynb
+            base_parameters:
+              catalog: ${var.catalog}
             source: WORKSPACE
           job_cluster_key: slv_task_cluster
         - task_key: slv_sales_task
@@ -13,8 +20,10 @@ resources:
             - task_key: brz_read_task
           notebook_task:
             notebook_path: ..\..\medallion_arc\silver\sales_slv_notebook.ipynb
+            base_parameters:
+              catalog: ${var.catalog}
             source: WORKSPACE
-          job_cluster_key: slv_task_cluster
+          job_cluster_key: slv_task_cluster      
       job_clusters:
         - job_cluster_key: slv_task_cluster
           new_cluster:

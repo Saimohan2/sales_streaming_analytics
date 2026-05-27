@@ -16,9 +16,7 @@ artifacts:
 # Variable declarations. These variables are assigned in the dev/prod targets below.
 variables:
   catalog:
-    description: The catalog to use
-  schema:
-    description: The schema to use
+    default: sales_streaming_dev
 
 targets:
   dev:
@@ -31,10 +29,12 @@ targets:
     workspace:
       host: https://adb-7405611651926080.0.azuredatabricks.net/
     variables:
-      catalog: sales_streaming_dev
-      schema: dev
+      catalog:
+        default: sales_streaming_dev
     presets:
       artifacts_dynamic_version: true
+      name_prefix: "dev_${workspace.current_user.short_name}_"
+
   test:
     mode: development
     workspace:
@@ -42,11 +42,15 @@ targets:
       # We explicitly deploy to /Workspace/Users/saiadabala@jayveer.onmicrosoft.com to make sure we only have a single copy.
       root_path: /Workspace/Users/saiadabala@jayveer.onmicrosoft.com/.bundle/${bundle.name}/${bundle.target}
     variables:
-      catalog: sales_streaming_test
-      schema: prod
+      catalog:
+        default: sales_streaming_test
+    presets:
+      artifacts_dynamic_version: true
+      name_prefix: "test_${workspace.current_user.short_name}_"
     permissions:
       - user_name: saiadabala@jayveer.onmicrosoft.com
         level: CAN_MANAGE  
+
   prod:
     mode: production
     workspace:
@@ -54,8 +58,11 @@ targets:
       # We explicitly deploy to /Workspace/Users/saiadabala@jayveer.onmicrosoft.com to make sure we only have a single copy.
       root_path: /Workspace/Users/saiadabala@jayveer.onmicrosoft.com/.bundle/${bundle.name}/${bundle.target}
     variables:
-      catalog: sales_streaming_prod
-      schema: prod
+      catalog:
+        default: sales_streaming_prod
+    presets:
+      artifacts_dynamic_version: true
+      name_prefix: "prod_"
     permissions:
       - user_name: saiadabala@jayveer.onmicrosoft.com
         level: CAN_MANAGE
