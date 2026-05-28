@@ -13,6 +13,7 @@ resources:
             notebook_path: ..\..\medallion_arc\bronze\stream_read.ipynb
             base_parameters:
               catalog: ${var.catalog}
+              checkpoints_dir: ${var.checkpoints_dir}
             source: WORKSPACE
           job_cluster_key: slv_task_cluster
         - task_key: slv_sales_task
@@ -22,8 +23,19 @@ resources:
             notebook_path: ..\..\medallion_arc\silver\sales_slv_notebook.ipynb
             base_parameters:
               catalog: ${var.catalog}
+              checkpoints_dir: ${var.checkpoints_dir}
             source: WORKSPACE
-          job_cluster_key: slv_task_cluster      
+          job_cluster_key: slv_task_cluster
+        - task_key: emp_cdc_brz_task
+          depends_on:
+            - task_key: brz_read_task
+          notebook_task:
+            notebook_path: ..\..\medallion_arc\bronze\emp_cdc\emp_landing.ipynb
+            base_parameters:
+              catalog: ${var.catalog}
+              checkpoints_dir: ${var.checkpoints_dir}
+            source: WORKSPACE
+          job_cluster_key: slv_task_cluster
       job_clusters:
         - job_cluster_key: slv_task_cluster
           new_cluster:
