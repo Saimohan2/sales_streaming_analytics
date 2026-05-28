@@ -17,6 +17,8 @@ artifacts:
 variables:
   catalog:
     default: sales_streaming_dev
+  checkpoints_dir:
+    default: dev_checkpoints
 
 targets:
   dev:
@@ -44,6 +46,8 @@ targets:
     variables:
       catalog:
         default: sales_streaming_test
+      checkpoints_dir:
+        default: test_checkpoints
     presets:
       artifacts_dynamic_version: true
       name_prefix: "test_${workspace.current_user.short_name}_"
@@ -60,6 +64,8 @@ targets:
     variables:
       catalog:
         default: sales_streaming_prod
+      checkpoints_dir:
+        default: prod_checkpoints
     presets:
       artifacts_dynamic_version: true
       name_prefix: "prod_"
