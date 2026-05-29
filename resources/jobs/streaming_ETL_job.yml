@@ -3,7 +3,7 @@ resources:
     streaming_ETL_job:
       name: streaming_ETL_job
       trigger:
-        pause_status: PAUSED
+        pause_status: UNPAUSED
         periodic:
           interval: 1
           unit: HOURS
@@ -31,6 +31,16 @@ resources:
             - task_key: brz_read_task
           notebook_task:
             notebook_path: ..\..\medallion_arc\bronze\emp_cdc\emp_landing.ipynb
+            base_parameters:
+              catalog: ${var.catalog}
+              checkpoints_dir: ${var.checkpoints_dir}
+            source: WORKSPACE
+          job_cluster_key: slv_task_cluster
+        - task_key: emp_hist_scd2_brz_task
+          depends_on:
+            - task_key: emp_cdc_brz_task
+          notebook_task:
+            notebook_path: ..\..\medallion_arc\bronze\emp_cdc\emp_dim_scd2.ipynb
             base_parameters:
               catalog: ${var.catalog}
               checkpoints_dir: ${var.checkpoints_dir}
