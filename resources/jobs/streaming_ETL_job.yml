@@ -8,7 +8,16 @@ resources:
           interval: 1
           unit: HOURS
       tasks:
+        - task_key: producer_task
+          notebook_task:
+            notebook_path: ..\..\GeneratorandProducer.ipynb
+            base_parameters:
+              catalog: ${var.catalog}
+            source: WORKSPACE
+          job_cluster_key: slv_task_cluster
         - task_key: brz_read_task
+          depends_on:
+            - task_key: producer_task
           notebook_task:
             notebook_path: ..\..\medallion_arc\bronze\stream_read.ipynb
             base_parameters:
