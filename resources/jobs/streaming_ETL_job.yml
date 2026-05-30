@@ -13,6 +13,7 @@ resources:
             notebook_path: ..\..\GeneratorandProducer.ipynb
             base_parameters:
               catalog: ${var.catalog}
+              ngrokip: ${var.ngrokip}
             source: WORKSPACE
           job_cluster_key: slv_task_cluster
         - task_key: brz_read_task
@@ -23,6 +24,7 @@ resources:
             base_parameters:
               catalog: ${var.catalog}
               checkpoints_dir: ${var.checkpoints_dir}
+              ngrokip: ${var.ngrokip}
             source: WORKSPACE
           job_cluster_key: slv_task_cluster
         - task_key: slv_sales_task
