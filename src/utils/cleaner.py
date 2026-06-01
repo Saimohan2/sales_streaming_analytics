@@ -21,7 +21,7 @@ def bad_sales_records(spark, df):
 def good_exp_records(spark, df):
 
     df = (df.filter((F.col("expense_id").isNotNull()) & (F.col("region_id").isNotNull()) & 
-                   (F.col("expense_amount")>0))
+                   (F.col("expense_amount")>F.lit(0)))
             .withColumn("expense_type", F.initcap(
                                                 F.trim(
                                                     F.col("expense_type")
@@ -33,7 +33,7 @@ def good_exp_records(spark, df):
 def bad_exp_records(spark, df):
 
     df = (df.filter((F.col("expense_id").isNull()) | (F.col("region_id").isNull()) | 
-                   (F.col("expense_amount")<=0))
+                   (F.col("expense_amount")<=F.lit(0)))
             .withColumn("expense_type", F.initcap(
                                                 F.trim(
                                                     F.col("expense_type")
