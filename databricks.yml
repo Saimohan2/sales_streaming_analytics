@@ -21,6 +21,8 @@ variables:
     default: dev_checkpoints
   ngrokip:
     default: 15212
+  env:
+    default: dev
 
 targets:
   dev:
@@ -35,6 +37,8 @@ targets:
     variables:
       catalog:
         default: sales_streaming_dev
+      env:
+        default: dev
     presets:
       artifacts_dynamic_version: true
       name_prefix: "dev_${workspace.current_user.short_name}_"
@@ -50,6 +54,8 @@ targets:
         default: sales_streaming_test
       checkpoints_dir:
         default: test_checkpoints
+      env:
+        default: test
     presets:
       artifacts_dynamic_version: true
       name_prefix: "test_${workspace.current_user.short_name}_"
@@ -68,6 +74,8 @@ targets:
         default: sales_streaming_prod
       checkpoints_dir:
         default: prod_checkpoints
+      env:
+        default: prod
     presets:
       artifacts_dynamic_version: true
       name_prefix: "prod_"
