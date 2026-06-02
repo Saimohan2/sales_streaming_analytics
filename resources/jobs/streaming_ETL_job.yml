@@ -3,7 +3,7 @@ resources:
     streaming_ETL_job:
       name: streaming_ETL_job
       trigger:
-        pause_status: UNPAUSED
+        pause_status: PAUSED
         periodic:
           interval: 1
           unit: HOURS
@@ -32,6 +32,26 @@ resources:
             - task_key: brz_read_task
           notebook_task:
             notebook_path: ..\..\medallion_arc\silver\sales_slv_notebook.ipynb
+            base_parameters:
+              catalog: ${var.catalog}
+              checkpoints_dir: ${var.checkpoints_dir}
+            source: WORKSPACE
+          job_cluster_key: slv_task_cluster
+        - task_key: slv_exp_task
+          depends_on:
+            - task_key: brz_read_task
+          notebook_task:
+            notebook_path: ..\..\medallion_arc\silver\expenses_slv.ipynb
+            base_parameters:
+              catalog: ${var.catalog}
+              checkpoints_dir: ${var.checkpoints_dir}
+            source: WORKSPACE
+          job_cluster_key: slv_task_cluster
+        - task_key: slv_reg_task
+          depends_on:
+            - task_key: brz_read_task
+          notebook_task:
+            notebook_path: ..\..\medallion_arc\silver\regions_slv.ipynb
             base_parameters:
               catalog: ${var.catalog}
               checkpoints_dir: ${var.checkpoints_dir}

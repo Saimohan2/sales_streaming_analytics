@@ -15,12 +15,12 @@ artifacts:
 
 # Variable declarations. These variables are assigned in the dev/prod targets below.
 variables:
-  catalog:
+  catalog: # this is a variable name
     default: sales_streaming_dev
   checkpoints_dir:
     default: dev_checkpoints
   ngrokip:
-    default: 21712
+    default: 15212
 
 targets:
   dev:
