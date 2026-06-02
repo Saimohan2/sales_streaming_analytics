@@ -20,7 +20,7 @@ variables:
   checkpoints_dir:
     default: dev_checkpoints
   ngrokip:
-    default: 21712
+    default: 15212
 
 targets:
   dev:
