@@ -2,9 +2,14 @@ from databricks.connect import DatabricksSession
 from pyspark.sql import functions as F
 import sys
 
+catalog = sys.argv[1]
+checkpoints_dir = sys.argv[2]
+
+spark.conf.set("spark.sql.shuffle.partitions", 10)
+
 spark = DatabricksSession.builder.getOrCreate()
 
-df = spark.readStream.table("sales_streaming_dev.slv.expenses")
+df = spark.readStream.table(f"{catalog}.slv.expenses")
 
 hourly_exp = (df.withWatermark("event_time", "2 hours")
                 .dropDuplicates(["expense_id"])
@@ -18,7 +23,7 @@ hourly_exp = (df.withWatermark("event_time", "2 hours")
                 .select("date", "window_start", "window_end", "region_id", "total_expenses",
                         "total_spend", "avg_expense_per_event"))
 
-reg_df = spark.read.table("sales_streaming_dev.slv.regions")
+reg_df = spark.read.table(f"{catalog}.slv.regions")
 
 joined_df = (hourly_exp.alias("h")
              .join(F.broadcast(reg_df).alias("r"), on = ["region_id"], how = "inner")
@@ -27,9 +32,9 @@ joined_df = (hourly_exp.alias("h")
 
 query = (joined_df.writeStream
             .format("delta")
-            .option("checkpointLocation", "abfss://checkpoints@jayveeradlsdevtest.dfs.core.windows.net/dev_checkpoints/gld_checkpoints/reg_hrly_exp_win_agg_checkpoint")
+            .option("checkpointLocation", f"abfss://checkpoints@jayveeradlsdevtest.dfs.core.windows.net/{checkpoints_dir}/gld_checkpoints/reg_hrly_exp_win_agg_checkpoint")
             .outputMode("append")
             .trigger(availableNow = True)
-            .table("sales_streaming_dev.gld.hourly_regional_expenses_summary_agg"))
+            .table(f"{catalog}.gld.hourly_regional_expenses_summary_agg"))
 
 query.awaitTermination()

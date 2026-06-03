@@ -89,6 +89,16 @@ resources:
               - ${var.checkpoints_dir}
             source: WORKSPACE
           job_cluster_key: slv_task_cluster
+        - task_key: regional_hourly_expenses_summ_task
+          depends_on:
+            - task_key: slv_exp_task
+          spark_python_task:
+            python_file: ..\..\medallion_arc\gold\daily_summary\reg_hrly_windowed_expenses.py
+            parameters:
+              - ${var.catalog}
+              - ${var.checkpoints_dir}
+            source: WORKSPACE
+          job_cluster_key: slv_task_cluster
       job_clusters:
         - job_cluster_key: slv_task_cluster
           new_cluster:
