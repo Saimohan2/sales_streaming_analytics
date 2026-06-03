@@ -3,7 +3,7 @@ resources:
     streaming_ETL_job:
       name: streaming_ETL_job
       trigger:
-        pause_status: PAUSED
+        pause_status: UNPAUSED
         periodic:
           interval: 1
           unit: HOURS
@@ -14,6 +14,7 @@ resources:
             base_parameters:
               catalog: ${var.catalog}
               ngrokip: ${var.ngrokip}
+              env: ${var.env}
             source: WORKSPACE
           job_cluster_key: slv_task_cluster
         - task_key: brz_read_task
@@ -25,6 +26,7 @@ resources:
               catalog: ${var.catalog}
               checkpoints_dir: ${var.checkpoints_dir}
               ngrokip: ${var.ngrokip}
+              env: ${var.env}
             source: WORKSPACE
           job_cluster_key: slv_task_cluster
         - task_key: slv_sales_task
@@ -75,6 +77,16 @@ resources:
             base_parameters:
               catalog: ${var.catalog}
               checkpoints_dir: ${var.checkpoints_dir}
+            source: WORKSPACE
+          job_cluster_key: slv_task_cluster
+        - task_key: regional_hourly_sales_summ_task
+          depends_on:
+            - task_key: slv_sales_task
+          spark_python_task:
+            python_file: ..\..\medallion_arc\gold\daily_summary\reg_windowed_sales.py
+            parameters:
+              - ${var.catalog}
+              - ${var.checkpoints_dir}
             source: WORKSPACE
           job_cluster_key: slv_task_cluster
       job_clusters:

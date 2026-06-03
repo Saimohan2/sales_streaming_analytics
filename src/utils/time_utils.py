@@ -12,3 +12,24 @@ def date_day_weekOfMonth(spark, df, event_time):
                                                                   )
     
     return df
+
+def get_week_start():
+    
+    return F.date_trunc("week", F.current_timestamp())
+
+def add_week_start_date(df):
+
+    return df.withColumn("week_start_date", 
+                            F.to_date(get_week_start()))
+
+def last_week_start(df):
+
+    week_start = get_week_start()
+
+    return df.withColumn("last_week_start_date", 
+                            F.to_date(
+                                F.date_trunc(
+                                    "week", 
+                                    get_week_start() - F.expr("INTERVAL 7 DAYS"))
+                                    )
+                                )
