@@ -38,7 +38,7 @@ reg_df = (spark.read
 
 joined_df = (prof_df.alias("p")
                     .join(F.broadcast(reg_df).alias("r"),
-                          on = ["region_id"], how = "inner")
+                            on = ["region_id"], how = "inner")
                     .select("p.date", "p.window_start", "p.window_end", "r.city",
                             "p.total_revenue", "p.total_expenses", "p.profit",
                             "p.profit_margin"))
