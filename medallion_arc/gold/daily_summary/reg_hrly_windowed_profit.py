@@ -1,7 +1,15 @@
 from databricks.connect import DatabricksSession
-from src.utils.agg_utils import calculate_profit, profit_margin
 from pyspark.sql import functions as F
+import os
 import sys
+
+file_dir = os.path.dirname(os.path.abspath(__file__))
+
+home = os.path.abspath(os.path.join(file_dir, "..", "..", ".."))
+
+sys.path.append(home)
+
+from src.utils.agg_utils import calculate_profit, profit_margin
 
 spark = DatabricksSession.builder.getOrCreate()
 
