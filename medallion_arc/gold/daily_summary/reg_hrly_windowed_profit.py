@@ -3,6 +3,10 @@ from pyspark.sql import functions as F
 import os
 import sys
 
+# ------------------------------------------------------------------
+# Project imports
+# ------------------------------------------------------------------
+
 file_dir = os.path.dirname(os.path.abspath(__file__))
 
 home = os.path.abspath(os.path.join(file_dir, "..", "..", ".."))
@@ -11,9 +15,17 @@ sys.path.append(home)
 
 from src.utils.agg_utils import calculate_profit, profit_margin
 
+# ------------------------------------------------
+# spark session
+# ------------------------------------------------
+
 spark = DatabricksSession.builder.getOrCreate()
 
 spark.conf.set("spark.sql.shuffle.partitions", 6)
+
+# ------------------------------------------------
+# runtime parameters
+# ------------------------------------------------
 
 catalog = sys.argv[1]
 checkpoints_dir = sys.argv[2]
