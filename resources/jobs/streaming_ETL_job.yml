@@ -125,6 +125,16 @@ resources:
               - ${var.checkpoints_dir}
             source: WORKSPACE
           job_cluster_key: slv_task_cluster
+        - task_key: regional_running_weekly_profit_summ_task
+          depends_on:
+            - task_key: slv_sales_task
+            - task_key: slv_exp_task
+          spark_python_task:
+            python_file: ..\..\medallion_arc\gold\weekly_summary\running_weekly_profit.py
+            parameters:
+              - ${var.catalog}
+            source: WORKSPACE
+          job_cluster_key: slv_task_cluster
       job_clusters:
         - job_cluster_key: slv_task_cluster
           new_cluster:

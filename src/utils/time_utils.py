@@ -17,10 +17,11 @@ def get_week_start():
     
     return F.date_trunc("week", F.current_timestamp())
 
-def add_week_start_date(df):
+def add_week_start_date():
 
-    return df.withColumn("week_start_date", 
-                            F.to_date(get_week_start()))
+    week_start_date = get_week_start()
+
+    return week_start_date
 
 def last_week_start(df):
 
