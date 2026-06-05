@@ -37,6 +37,10 @@ resources:
             base_parameters:
               catalog: ${var.catalog}
               checkpoints_dir: ${var.checkpoints_dir}
+              task_name: "{{task.name}}"
+              run_id: "{{task.run_id}}"
+              run_start: "{{job.start_time.timestamp_ms}}"
+              job_id: "{{job.id}}"
             source: WORKSPACE
           job_cluster_key: slv_task_cluster
         - task_key: slv_exp_task
