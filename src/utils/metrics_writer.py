@@ -51,13 +51,21 @@ def sales_slv_metrics(spark, job_id, task_name, run_id, job_start_ts, batch_id,
         "null_employee_id": null_records["null_employee_id"],
         "null_region_id": null_records["null_region_id"],
         "negative_sales_amount": negative_records["negative_sales_amount"],
-        "output_rows": output_rows,
+        "output_records": output_rows,
         "status": "success"
     }
     
     # create dataframe to write to table
 
     metrics_df = spark.createDataFrame([metrics_dict])
+
+    metrics_df = metrics_df.select(F.col("job_id").cast("long"), "task_name", 
+                                   F.col("run_id").cast("long"), "batch_id",
+                                   F.col("job_start_ts").cast("timestamp"),
+                                   "run_date", "pipeline_stage", "source_table",
+                                   "target_table", "incoming_records", "null_sales_id",
+                                   "null_employee_id", "null_region_id", "negative_sales_amount",
+                                   "output_records", "status")
 
     # write to metrics dataframe in append mode
 
