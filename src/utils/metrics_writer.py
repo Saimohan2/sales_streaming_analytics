@@ -61,7 +61,8 @@ def sales_slv_metrics(spark, job_id, task_name, run_id, job_start_ts, batch_id,
 
     metrics_df = metrics_df.select(F.col("job_id").cast("long"), "task_name", 
                                    F.col("run_id").cast("long"), "batch_id",
-                                   F.col("job_start_ts").cast("timestamp"),
+                                   F.from_unixtime(F.col("job_start_ts") / 1000)\
+                                    .cast("timestamp").alias("job_start_ts"),
                                    "run_date", "pipeline_stage", "source_table",
                                    "target_table", "incoming_records", "null_sales_id",
                                    "null_employee_id", "null_region_id", "negative_sales_amount",
