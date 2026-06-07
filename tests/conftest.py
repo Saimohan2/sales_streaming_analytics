@@ -13,6 +13,8 @@ def spark():
     try:
         from databricks.connect import DatabricksSession
 
+        print("Using databricks connect")
+
         spark = DatabricksSession.builder.getOrCreate()
     
     except ImportError:
@@ -20,10 +22,17 @@ def spark():
         try:
             from pyspark.sql import SparkSession
 
-            spark = SparkSession.builder.getOrCreate()
+            print("Creating spark session")
+
+            spark = (SparkSession.builder.master("local[*]")
+                     .config("spark.default.parallelism", "1")
+                     .config("spark.sql.shuffle.partitions", "1")
+                     .getOrCreate())
 
         except ImportError:
 
             raise ImportError("Couldn't initialize neither of the sessions")
         
-    return spark
+    yield spark
+
+    spark.stop()
