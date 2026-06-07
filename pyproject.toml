@@ -16,8 +16,8 @@ sources = ["src"]
 
 [tool.hatch.build.targets.wheel]
 packages = [
-    "sales_streaming_analytics",
-    "utils"
+    "src/sales_streaming_analytics",
+    "src/utils"
 ]
 
 [tool.hatch.build.targets.wheel.sources]
