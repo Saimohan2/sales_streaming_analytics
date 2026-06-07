@@ -1,8 +1,19 @@
-from databricks.sdk.runtime import spark
-from pyspark.sql import DataFrame
-from sales_streaming_analytics import taxis
+from src.utils.agg_utils import calculate_profit
 
+def test_profit_func(spark):
 
-def test_find_all_taxis():
-    results = taxis.find_all_taxis()
-    assert results.count() > 5
+    data = [
+        (2000, 1000),
+        (1000, 1500)
+    ]
+
+    schema = ["total_revenue", "total_expenses"]
+
+    df = spark.createDataFrame(data, schema)
+
+    profit_df = df.withColumn("profit", calculate_profit("total_revenue", "total_expenses"))
+
+    results = profit_df.select("profit").collect() 
+
+    assert results[0]["profit"] == 1000
+    assert results[1]["profit"] == -500
