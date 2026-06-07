@@ -11,6 +11,18 @@ dependencies = [
     # add dependencies to the 'environment' section of your pipeline.yml file instead
 ]
 
+[tool.hatch.build]
+sources = ["src"]
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "sales_streaming_analytics",
+    "utils"
+]
+
+[tool.hatch.build.targets.wheel.sources]
+"src" = ""
+
 [dependency-groups]
 dev = [
     "pytest",
