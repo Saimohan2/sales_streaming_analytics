@@ -8,7 +8,16 @@ resources:
           interval: 1
           unit: HOURS
       tasks:
+        - task_key: wheel_task
+          python_wheel_task:
+            package_name: sales_streaming_analytics
+            entry_point: main
+          job_cluster_key: slv_task_cluster
+          libraries:
+            - whl: ..\..\dist\*.whl
         - task_key: producer_task
+          depends_on:
+            - task_key: wheel_task
           notebook_task:
             notebook_path: ..\..\GeneratorandProducer.ipynb
             base_parameters:

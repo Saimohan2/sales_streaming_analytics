@@ -7,13 +7,13 @@ import os
 # Project module imports
 # --------------------------------------------------
 
-curr_file_path = globals().get("__file__", sys.argv[0]) # globals is a dictionary which stores info of the files in our project
-curr_dir = os.path.dirname(os.path.abspath(curr_file_path))
-project_root = os.path.abspath(os.path.join(curr_dir, "..", "..", ".."))
+# curr_file_path = globals().get("__file__", sys.argv[0]) # globals is a dictionary which stores info of the files in our project
+# curr_dir = os.path.dirname(os.path.abspath(curr_file_path))
+# project_root = os.path.abspath(os.path.join(curr_dir, "..", "..", ".."))
 
-sys.path.append(project_root)
+# sys.path.append(project_root)
 
-from src.utils.agg_utils import calculate_profit, profit_margin
+from utils.agg_utils import calculate_profit, profit_margin
 
 # --------------------------------------------------
 # initialize spark session

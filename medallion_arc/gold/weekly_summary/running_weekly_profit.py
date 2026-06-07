@@ -5,16 +5,16 @@ import os
 
 spark = DatabricksSession.builder.getOrCreate()
 
-current_file_path = globals().get("__file__", sys.argv[0])
-file_dir = os.path.dirname(os.path.abspath(current_file_path))
-proj_root = os.path.abspath(os.path.join(file_dir, "..", "..", ".."))
+# current_file_path = globals().get("__file__", sys.argv[0])
+# file_dir = os.path.dirname(os.path.abspath(current_file_path))
+# proj_root = os.path.abspath(os.path.join(file_dir, "..", "..", ".."))
 
-sys.path.append(proj_root)
+# sys.path.append(proj_root)
 
 catalog = sys.argv[1]
 
-from src.utils.agg_utils import calculate_profit, profit_margin
-from src.utils.time_utils import add_week_start_date
+from utils.agg_utils import calculate_profit, profit_margin
+from utils.time_utils import add_week_start_date
 
 sales_df = (spark.read
                 .table(f"{catalog}.slv.sales")

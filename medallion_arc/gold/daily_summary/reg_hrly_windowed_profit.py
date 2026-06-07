@@ -7,14 +7,14 @@ import sys
 # Project imports
 # ------------------------------------------------------------------
 
-script_path = globals().get("__file__", sys.argv[0])
-file_dir = os.path.dirname(os.path.abspath(script_path))
-project_root = os.path.abspath(os.path.join(file_dir, "..", "..", ".."))
+# script_path = globals().get("__file__", sys.argv[0])
+# file_dir = os.path.dirname(os.path.abspath(script_path))
+# project_root = os.path.abspath(os.path.join(file_dir, "..", "..", ".."))
 
-if project_root not in sys.path:
-    sys.path.append(project_root)
+# if project_root not in sys.path:
+#     sys.path.append(project_root)
 
-from src.utils.agg_utils import calculate_profit, profit_margin
+from utils.agg_utils import calculate_profit, profit_margin
 
 # ------------------------------------------------
 # spark session
