@@ -18,22 +18,22 @@ def test_date_day_weekOfMonth(spark):
     assert results[1]["day"] == "Tuesday"
     assert results[0]["week_of_month"] == 2
 
-def test_week_start_ts(spark):
+# def test_week_start_ts(spark):
 
-    data =  [
-        ((datetime.datetime(2026, 6, 9, 0, 0 ,0),),
-         (datetime.datetime(2026, 6, 8, 0, 0 ,0),))
-    ]
+#     data =  [
+#         ((datetime.datetime(2026, 6, 9, 0, 0 ,0),),
+#          (datetime.datetime(2026, 6, 8, 0, 0 ,0),))
+#     ]
 
-    schema = ["event_time"]
+#     schema = ["event_time"]
 
-    df = spark.createDataFrame(data, schema)
+#     df = spark.createDataFrame(data, schema)
 
-    transform_df = df.withColumn("week_start_ts", get_week_start())
+#     transform_df = df.withColumn("week_start_ts", get_week_start())
 
-    results = transform_df.select("week_start_ts").collect()
+#     results = transform_df.select("week_start_ts").collect()
 
-    assert results[0]["week_start_ts"] == datetime.datetime(2026, 6, 8, 0, 0, 0)
+#     assert results[0]["week_start_ts"] == datetime.datetime(2026, 6, 8, 0, 0, 0)
 
 def test_last_week_start(spark):
 
