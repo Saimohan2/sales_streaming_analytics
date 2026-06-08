@@ -8,7 +8,7 @@ on:
 jobs:
   demo-job:
     name: demo_job
-    runs-on: uubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: message 1
         run: echo "this is message 1"
